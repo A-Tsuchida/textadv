@@ -168,6 +168,7 @@ func loop(room int, instart bool, memory *Memory) int {
 	case "help":
 		fmt.Println("Possible commands:")
 		fmt.Println("  use OBJECT -> interact with a scene object")
+		fmt.Println("  use ITEM with OBJECT -> interact with a scene object using a item from inventory")
 		fmt.Println("  get OBJECT -> puts OBJECT in your inventory")
 		fmt.Println("  check OBJECT -> get OBJECT description")
 		fmt.Println("  inventory -> list what is in your inventory")
