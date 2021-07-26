@@ -1,0 +1,70 @@
+{
+    "Rooms": [
+        {
+            "Name": "Room A",
+            "Text": "Text, button, door, key",
+            "Objects": {
+                "button": 0,
+                "door": 1,
+                "key": 2
+            }
+        },
+        {
+            "Name": "Room B",
+            "Text": "Text, button, door",
+            "Objects": {
+                "button": 0,
+                "door": 3
+            }
+        }
+    ],
+    "Objects": [
+        {
+            "Name": "button",
+            "Description": "obj1 desc",
+            "ActionSuccess": "You pressed the button, you heard a buzzer",
+            "ActionFailure": "You pressed the button, nothing happens",
+            "IsPocketable": false,
+            "Commands": [
+                {
+                    "With": "",
+                    "Room": -1
+                }
+            ]
+        },
+        {
+            "Name": "door",
+            "Description": "The door is locked",
+            "ActionSuccess": "You unlocked the door and passed through",
+            "ActionFailure": "You cannot open the door",
+            "IsPocketable": false,
+            "Commands": [
+                {
+                    "With": "key",
+                    "Room": 1
+                }
+            ]
+        },
+        {
+            "Name": "key",
+            "Description": "Key to open locked doors",
+            "ActionSuccess": "Object.Success",
+            "ActionFailure": "Object.Fail",
+            "IsPocketable": true,
+            "Commands": [ ]
+        },
+        {
+            "Name": "door",
+            "Description": "The door is open",
+            "ActionSuccess": "You pass through the door",
+            "ActionFailure": "",
+            "IsPocketable": false,
+            "Commands": [
+                {
+                    "With": "",
+                    "Room": 0
+                }
+            ]
+        }
+    ]
+}
