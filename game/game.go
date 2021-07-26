@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"os"
 )
 
 type Data struct {
@@ -153,7 +154,9 @@ func loop(room int, instart bool, data *Data, inventory []string) (int, []string
 		fmt.Println("  load FILENAME -> load game stored in FILENAME")
 		fmt.Println("  newgame -> start a new game")
 	case "save":
+		fmt.Fprintln(os.Stderr, "Not Implemented.")
 	case "load":
+		fmt.Fprintln(os.Stderr, "Not Implemented.")
 	case "newgame":
 		fmt.Print("Are you sure? (Y/N) ")
 		var ans string
