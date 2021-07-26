@@ -12,6 +12,57 @@ type Data struct {
 	Rooms   []Room
 }
 
+func (d Data) GetObject(key string) *Object {
+	for _, o := range d.Objects {
+		if o.Key == key {
+			return &o
+		}
+	}
+	return nil
+}
+
+type Memory struct {
+	Data      Data
+	Inventory map[string]string
+	Solved    []string
+}
+
+func createMemory() *Memory {
+	var memory Memory
+	memory.Data = loadData()
+	memory.Inventory = make(map[string]string, 0)
+	memory.Solved = make([]string, 0)
+	return &memory
+}
+
+func (m Memory) ListInventory() {
+	if len(m.Inventory) == 0 {
+		fmt.Println("Nothing to see here.")
+	} else {
+		for k, _ := range m.Inventory {
+			fmt.Printf("%s\n", k)
+		}
+	}
+}
+
+func (m Memory) IsSolved(object string) bool {
+	for _, v := range m.Solved {
+		if v == object {
+			return true
+		}
+	}
+	return false
+}
+
+func (m Memory) GetInventoryItem(item string) string {
+	for k, v := range m.Inventory {
+		if k == item {
+			return v
+		}
+	}
+	return ""
+}
+
 func loadData() Data {
 	var data Data
 	fdata, _ := ioutil.ReadFile("data.json")
@@ -19,11 +70,11 @@ func loadData() Data {
 	return data
 }
 
-func loop(room int, instart bool, data *Data, inventory []string) (int, []string) {
+func loop(room int, instart bool, memory *Memory) int {
 	r := room
 	if instart {
 		fmt.Println()
-		data.Rooms[room].PrintText()
+		memory.Data.Rooms[room].PrintText()
 	}
 
 	fmt.Print("\n> ")
@@ -35,63 +86,46 @@ func loop(room int, instart bool, data *Data, inventory []string) (int, []string
 	fmt.Scanln(&cmd, &argA, &argB, &argC)
 	switch cmd {
 	case "use":
-		finished := false
-		err := true
 		if argB == "with" {
-			ininv := false
-			for _, v2 := range inventory {
-				if v2 == argA {
-					ininv = true
-				}
-			}
-			if !ininv {
-				fmt.Printf("You don't have a object named %s in your inventory.", argA)
-				err = false
+			keyWith := memory.GetInventoryItem(argA)
+			keyObj := memory.Data.Rooms[room].GetObjectKey(argC)
+			if keyObj == "" {
+				fmt.Printf("There's no object named %s here.\n", argC)
+			} else if keyWith == "" {
+				fmt.Printf("You don't have a object named %s in your inventory.\n", argA)
 			} else {
-				for k, v := range data.Rooms[room].Objects {
-					if argC == k {
-						obj := data.Objects[v]
-						for _, c := range obj.Commands {
-							if c.With == argA {
-								fmt.Printf("%s\n", obj.ActionSuccess)
-								if c.Room != -1 {
-									fmt.Print("Press [ENTER] to continue...")
-									fmt.Scanln()
-									r = c.Room
-								}
-								finished = true
-								err = false
-							}
-						}
-						if !finished {
-							fmt.Printf("%s\n", obj.ActionFailure)
-							err = false
-						}
+				obj := memory.Data.GetObject(keyObj)
+
+				if obj.Command == nil {
+					fmt.Printf("%s\n", obj.ActionFailure)
+				} else if obj.Command.With != keyWith {
+					fmt.Println("I don't think it will work.")
+				} else {
+					fmt.Printf("%s\n", obj.ActionSuccess)
+					if !memory.IsSolved(keyObj) {
+						memory.Solved = append(memory.Solved, keyObj)
+					}
+					if obj.Command.Room != -1 {
+						fmt.Print("Press [ENTER] to continue...")
+						fmt.Scanln()
+						r = obj.Command.Room
 					}
 				}
-			}
-			if err {
-				fmt.Println("Invalid command.")
 			}
 		} else if argB == "" {
-			for k, v := range data.Rooms[room].Objects {
-				if argA == k {
-					obj := data.Objects[v]
-					for _, c := range obj.Commands {
-						if c.With == "" {
-							fmt.Printf("%s\n", obj.ActionSuccess)
-							if c.Room != -1 {
-								fmt.Print("Press [ENTER] to continue...")
-								fmt.Scanln()
-								r = c.Room
-							}
-							finished = true
-							err = false
-						}
-					}
-					if !finished {
-						fmt.Printf("%s\n", obj.ActionFailure)
-						err = false
+			keyObj := memory.Data.Rooms[room].GetObjectKey(argA)
+			if keyObj == "" {
+				fmt.Printf("There's no object named %s here.\n", argA)
+			} else {
+				obj := memory.Data.GetObject(keyObj)
+				if obj.Command == nil || (obj.Command.With != "" && !memory.IsSolved(keyObj)) {
+					fmt.Printf("%s\n", obj.ActionFailure)
+				} else {
+					fmt.Printf("%s\n", obj.ActionSuccess)
+					if obj.Command.Room != -1 {
+						fmt.Print("Press [ENTER] to continue...")
+						fmt.Scanln()
+						r = obj.Command.Room
 					}
 				}
 			}
@@ -102,25 +136,18 @@ func loop(room int, instart bool, data *Data, inventory []string) (int, []string
 		if argB != "" {
 			fmt.Println("Invalid command.")
 		} else {
-			for k, v := range data.Rooms[room].Objects {
-				obj := data.Objects[v]
-				if argA == k {
-					if obj.IsPocketable {
-						found := false
-						for _, v := range inventory {
-							if v == argA {
-								found = true
-							}
-						}
-						if !found {
-							fmt.Printf("%s was added to inventory.\n", obj.Name)
-							inventory = append(inventory, obj.Name)
-						} else {
-							fmt.Printf("%s already is in inventory.\n", obj.Name)
-						}
-					} else {
-						fmt.Println("Invalid command for this object.")
-					}
+			keyObj := memory.Data.Rooms[room].GetObjectKey(argA)
+			if keyObj == "" {
+				fmt.Printf("There's no object named %s here.\n", argA)
+			} else if memory.GetInventoryItem(argA) != "" {
+				fmt.Printf("%s already is in inventory.\n", argA)
+			} else {
+				obj := memory.Data.GetObject(keyObj)
+				if obj.IsPocketable {
+					memory.Inventory[argA] = keyObj
+					fmt.Printf("%s was added to inventory.\n", argA)
+				} else {
+					fmt.Printf("You can't put %s in your inventory.\n", argA)
 				}
 			}
 		}
@@ -128,21 +155,16 @@ func loop(room int, instart bool, data *Data, inventory []string) (int, []string
 		if argB != "" {
 			fmt.Println("Invalid command.")
 		} else {
-			for k, v := range data.Rooms[room].Objects {
-				obj := data.Objects[v]
-				if argA == k {
-					fmt.Printf("%s\n", obj.Description)
-				}
+			keyObj := memory.Data.Rooms[room].GetObjectKey(argA)
+			if keyObj == "" {
+				fmt.Printf("There's no object named %s here.\n", argA)
+			} else {
+				obj := memory.Data.GetObject(keyObj)
+				fmt.Printf("%s\n", obj.Description)
 			}
 		}
 	case "inventory":
-		if len(inventory) == 0 {
-			fmt.Println("Nothing to see here.")
-		} else {
-			for _, v := range inventory {
-				fmt.Printf("%s\n", v)
-			}
-		}
+		memory.ListInventory()
 	case "help":
 		fmt.Println("Possible commands:")
 		fmt.Println("  use OBJECT -> interact with a scene object")
@@ -176,20 +198,19 @@ func loop(room int, instart bool, data *Data, inventory []string) (int, []string
 		fmt.Printf("There in no command %s. Type 'help' for command list.\n", cmd)
 	}
 
-	return r, inventory
+	return r
 }
 
 func Start() {
-	data := loadData()
-	inventory := make([]string, 0)
+	memory := createMemory()
 	nroom, room, proom := 0, 0, -1
 	for {
-		nroom, inventory = loop(room, proom != room, &data, inventory)
+		nroom = loop(room, proom != room, memory)
 		if nroom == -1 {
 			break
 		} else if nroom == -2 {
 			nroom = 0
-			inventory = make([]string, 0)
+			memory = createMemory()
 		}
 
 		proom = room

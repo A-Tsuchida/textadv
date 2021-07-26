@@ -4,67 +4,65 @@
             "Name": "Room A",
             "Text": "Text, button, door, key",
             "Objects": {
-                "button": 0,
-                "door": 1,
-                "key": 2
+                "button": "button",
+                "door": "lockedDoor",
+                "key": "doorKey"
             }
         },
         {
             "Name": "Room B",
             "Text": "Text, button, door",
             "Objects": {
-                "button": 0,
-                "door": 3
+                "button": "button",
+                "door": "openDoor"
             }
         }
     ],
     "Objects": [
         {
-            "Name": "button",
-            "Description": "obj1 desc",
+            "Key": "button",
+            "Name": "Button",
+            "Description": "A simple button",
             "ActionSuccess": "You pressed the button, you heard a buzzer",
             "ActionFailure": "You pressed the button, nothing happens",
             "IsPocketable": false,
-            "Commands": [
-                {
-                    "With": "",
-                    "Room": -1
-                }
-            ]
+            "Command": {
+                "With": "",
+                "Room": -1
+            }
         },
         {
-            "Name": "door",
+            "Key": "lockedDoor",
+            "Name": "Door",
             "Description": "The door is locked",
             "ActionSuccess": "You unlocked the door and passed through",
             "ActionFailure": "You cannot open the door",
             "IsPocketable": false,
-            "Commands": [
-                {
-                    "With": "key",
-                    "Room": 1
-                }
-            ]
+            "Command": {
+                "With": "doorKey",
+                "Room": 1
+            }
         },
         {
-            "Name": "key",
+            "Key": "doorKey",
+            "Name": "Key",
             "Description": "Key to open locked doors",
             "ActionSuccess": "Object.Success",
             "ActionFailure": "Object.Fail",
             "IsPocketable": true,
-            "Commands": [ ]
+            "Command": null
         },
         {
-            "Name": "door",
+            "Key": "openDoor",
+            "Name": "Door",
             "Description": "The door is open",
             "ActionSuccess": "You pass through the door",
             "ActionFailure": "",
             "IsPocketable": false,
-            "Commands": [
-                {
-                    "With": "",
-                    "Room": 0
-                }
-            ]
+            "Command": {
+                "With": "",
+                "Room": 0
+            }
         }
     ]
 }

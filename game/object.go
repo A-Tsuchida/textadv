@@ -6,10 +6,11 @@ type Command struct {
 }
 
 type Object struct {
+	Key           string
 	Name          string
 	Description   string
 	ActionSuccess string
 	ActionFailure string
 	IsPocketable  bool
-	Commands      []Command
+	Command       *Command
 }
