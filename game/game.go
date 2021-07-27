@@ -194,7 +194,7 @@ func loop(room int, instart bool, memory *Memory) int {
 		if ans == "Y" || ans == "y" {
 			r = -1
 		}
-
+	case "":
 	default:
 		fmt.Printf("There in no command %s. Type 'help' for command list.\n", cmd)
 	}
