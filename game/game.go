@@ -27,14 +27,6 @@ type Memory struct {
 	Solved    []string
 }
 
-func createMemory() *Memory {
-	var memory Memory
-	memory.Data = loadData()
-	memory.Inventory = make(map[string]string, 0)
-	memory.Solved = make([]string, 0)
-	return &memory
-}
-
 func (m Memory) ListInventory() {
 	if len(m.Inventory) == 0 {
 		fmt.Println("Nothing to see here.")
@@ -61,6 +53,14 @@ func (m Memory) GetInventoryItem(item string) string {
 		}
 	}
 	return ""
+}
+
+func createMemory() *Memory {
+	var memory Memory
+	memory.Data = loadData()
+	memory.Inventory = make(map[string]string, 0)
+	memory.Solved = make([]string, 0)
+	return &memory
 }
 
 func loadData() Data {
