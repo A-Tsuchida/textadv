@@ -211,7 +211,8 @@ func Start() {
 			break
 		} else if nroom == -2 {
 			nroom = 0
-			memory = createMemory()
+			memory.Inventory = make(map[string]string)
+			memory.Solved = make([]string, 0)
 		}
 
 		proom = room
