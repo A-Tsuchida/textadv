@@ -1,63 +1,91 @@
 {
     "Rooms": [
         {
-            "Name": "Room A",
-            "Text": "Text, button, door, key",
+            "Name": "O Início",
+            "Text": "Você abre os olhos e está sentado em uma cadeira, dentro de um quarto pequeno e com pouca iluminação.\nVocê vê um INTERRUPTOR na parede que está a sua frente. Ao lado oposto, há uma JANELA. Abaixo de sua cadeira há uma PEDRA. Uma PORTA aparece a distância.",
             "Objects": {
-                "button": "button",
-                "door": "lockedDoor",
-                "key": "doorKey"
+                "interruptor": "switch",
+                "janela": "window",
+                "pedra": "rock",
+                "porta": "door"
             }
         },
         {
-            "Name": "Room B",
-            "Text": "Text, button, door",
+            "Name": "Corredor escuro",
+            "Text": "Você entrou em um corredor completamente escuro. Talvez conseguiria enxergar algo se tivesse algum objeto para iluminar o caminho.\nPor enquanto, Há uma PORTA para voltar.",
             "Objects": {
-                "button": "button",
-                "door": "openDoor"
+                "porta": "door2"
+            }
+        },
+        {
+            "Name": "Penhasco",
+            "Text": "À sua frente há um penhasco. Não há saída.\nA única coisa prudente é voltar pela JANELA.",
+            "Objects": {
+                "janela": "brokenWindow"
             }
         }
     ],
     "Objects": [
         {
-            "Key": "button",
-            "Name": "Button",
-            "Description": "A simple button",
-            "ActionSuccess": "You pressed the button, you heard a buzzer",
-            "ActionFailure": "You pressed the button, nothing happens",
+            "Key": "switch",
+            "Name": "INTERRUPTOR",
+            "Description": "Um interruptor comum. Parece estar fora de uso.",
+            "ActionSuccess": "",
+            "ActionFailure": "O interruptor está quebrado e sem efeito.",
+            "IsPocketable": false,
+            "Command": null
+        },
+        {
+            "Key": "window",
+            "Name": "JANELA",
+            "Description": "Um dos vidros está rachado.",
+            "ActionSuccess": "A pedra quebrou a janela e você passou por ela.",
+            "ActionFailure": "Não vai funcionar.",
             "IsPocketable": false,
             "Command": {
-                "With": "",
-                "Room": -1
+                "With": "rock",
+                "Room": 2
             }
         },
         {
-            "Key": "lockedDoor",
-            "Name": "Door",
-            "Description": "The door is locked",
-            "ActionSuccess": "You unlocked the door and passed through",
-            "ActionFailure": "You cannot open the door",
-            "IsPocketable": false,
-            "Command": {
-                "With": "doorKey",
-                "Room": 1
-            }
-        },
-        {
-            "Key": "doorKey",
-            "Name": "Key",
-            "Description": "Key to open locked doors",
-            "ActionSuccess": "Object.Success",
-            "ActionFailure": "Object.Fail",
+            "Key": "rock",
+            "Name": "PEDRA",
+            "Description": "Uma pedra comum, pequena e pesada (parece ideal para quebrar vidros)",
+            "ActionSuccess": "",
+            "ActionFailure": "Não posso fazer isso com a pedra.",
             "IsPocketable": true,
             "Command": null
         },
         {
-            "Key": "openDoor",
-            "Name": "Door",
-            "Description": "The door is open",
-            "ActionSuccess": "You pass through the door",
-            "ActionFailure": "",
+            "Key": "door",
+            "Name": "PORTA",
+            "Description": "A porta parece estar aberta",
+            "ActionSuccess": "Você abriu a porta e passou por ela.",
+            "ActionFailure": "Não consigo fazer isso com a porta.",
+            "IsPocketable": false,
+            "Command": {
+                "With": "",
+                "Room": 1
+            }
+        },
+        {
+            "Key": "door2",
+            "Name": "PORTA",
+            "Description": "A porta parece estar aberta",
+            "ActionSuccess": "Você abriu a porta e passou por ela.",
+            "ActionFailure": "Não consigo fazer isso com a porta.",
+            "IsPocketable": false,
+            "Command": {
+                "With": "",
+                "Room": 0
+            }
+        },
+        {
+            "Key": "brokenWindow",
+            "Name": "JANELA",
+            "Description": "A janela está com o vidro estilhaçado",
+            "ActionSuccess": "Você passou pela janela.",
+            "ActionFailure": "Não consigo fazer isso com a janela.",
             "IsPocketable": false,
             "Command": {
                 "With": "",
