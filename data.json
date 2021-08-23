@@ -21,7 +21,26 @@
             "Name": "Penhasco",
             "Text": "À sua frente há um penhasco. Não há saída.\nA única coisa prudente é voltar pela JANELA.",
             "Objects": {
-                "janela": "brokenWindow"
+                "janela": "brokenWindow",
+                "buraco": "holeWall",
+                "fio": "wire"
+            }
+        },
+        {
+            "Name": "Corredor estreito",
+            "Text": "Você entrou em um corredor estreito. Você vê 3 portas à sua frente (ESQUERDA, FRENTE, DIRENTA).\nTambém há uma PORTA atrás para voltar.",
+            "Objects": {
+                "porta": "door2",
+                "esquerda": "doorL",
+                "frente": "doorF",
+                "direita": "doorR"
+            }
+        },
+        {
+            "Name": "",
+            "Text": "",
+            "Objects": {
+                
             }
         }
     ],
@@ -30,10 +49,16 @@
             "Key": "switch",
             "Name": "INTERRUPTOR",
             "Description": "Um interruptor comum. Parece estar fora de uso.",
-            "ActionSuccess": "",
+            "ActionSuccess": "Você ligou o interruptor",
             "ActionFailure": "O interruptor está quebrado e sem efeito.",
             "IsPocketable": false,
-            "Command": null
+            "Commands": [
+                {
+                    "With": "",
+                    "Room": -1,
+                    "Condition": "wire"
+                }
+            ]
         },
         {
             "Key": "window",
@@ -42,10 +67,18 @@
             "ActionSuccess": "A pedra quebrou a janela e você passou por ela.",
             "ActionFailure": "Não vai funcionar.",
             "IsPocketable": false,
-            "Command": {
-                "With": "rock",
-                "Room": 2
-            }
+            "Commands": [
+                {
+                    "With": "rock",
+                    "Room": 2,
+                    "Condition": ""
+                },
+                {
+                    "With": "",
+                    "Room": 2,
+                    "Condition": "window"
+                }
+            ]
         },
         {
             "Key": "rock",
@@ -54,7 +87,7 @@
             "ActionSuccess": "",
             "ActionFailure": "Não posso fazer isso com a pedra.",
             "IsPocketable": true,
-            "Command": null
+            "Commands": []
         },
         {
             "Key": "door",
@@ -63,10 +96,18 @@
             "ActionSuccess": "Você abriu a porta e passou por ela.",
             "ActionFailure": "Não consigo fazer isso com a porta.",
             "IsPocketable": false,
-            "Command": {
-                "With": "",
-                "Room": 1
-            }
+            "Commands": [
+                {
+                    "With": "",
+                    "Room": 3,
+                    "Condition": "switch"
+                },
+                {
+                    "With": "",
+                    "Room": 1,
+                    "Condition": ""
+                }
+            ]
         },
         {
             "Key": "door2",
@@ -75,22 +116,85 @@
             "ActionSuccess": "Você abriu a porta e passou por ela.",
             "ActionFailure": "Não consigo fazer isso com a porta.",
             "IsPocketable": false,
-            "Command": {
-                "With": "",
-                "Room": 0
-            }
+            "Commands": [
+                {
+                    "With": "",
+                    "Room": 0,
+                    "Condition": ""
+                }
+            ]
         },
         {
             "Key": "brokenWindow",
             "Name": "JANELA",
-            "Description": "A janela está com o vidro estilhaçado",
+            "Description": "A janela está com o vidro estilhaçado, há um BURACO na parede ao lado dela.",
             "ActionSuccess": "Você passou pela janela.",
             "ActionFailure": "Não consigo fazer isso com a janela.",
             "IsPocketable": false,
-            "Command": {
-                "With": "",
-                "Room": 0
-            }
+            "Commands": [
+                {
+                    "With": "",
+                    "Room": 0,
+                    "Condition": ""
+                }
+            ]
+        },
+        {
+            "Key": "holeWall",
+            "Name": "BURACO",
+            "Description": "Você olha no buraco e vê dois FIOs, parece que um deles está fora do lugar.",
+            "ActionSuccess": "",
+            "ActionFailure": "Não consigo fazer isso com o buraco.",
+            "IsPocketable": false,
+            "Commands": []
+        },
+        {
+            "Key": "wire",
+            "Name": "FIO",
+            "Description": "Parece que ele está fora do lugar.",
+            "ActionSuccess": "Você recolocou o fio no lugar",
+            "ActionFailure": "Não consigo fazer isso com o buraco.",
+            "IsPocketable": false,
+            "Commands": [
+                {
+                    "With": "",
+                    "Room": -1,
+                    "Condition": ""
+                }
+            ]
+        },
+        {
+            "Key": "doorL",
+            "Name": "PORTAESQUERDA",
+            "Description": "A porta parece estar aberta",
+            "ActionSuccess": "Você abriu a porta e passou por ela.",
+            "ActionFailure": "Não consigo fazer isso com a porta.",
+            "IsPocketable": false,
+            "Commands": [
+                {
+                    "With": "",
+                    "Room": 5,
+                    "Condition": ""
+                }
+            ]
+        },
+        {
+            "Key": "doorF",
+            "Name": "PORTAFRENTE",
+            "Description": "A porta parece estar trancada",
+            "ActionSuccess": "",
+            "ActionFailure": "Não consigo fazer isso com a porta.",
+            "IsPocketable": false,
+            "Commands": []
+        },
+        {
+            "Key": "doorR",
+            "Name": "PORTADIREITA",
+            "Description": "A porta parece estar trancada",
+            "ActionSuccess": "",
+            "ActionFailure": "Não consigo fazer isso com a porta.",
+            "IsPocketable": false,
+            "Commands": []
         }
     ]
 }

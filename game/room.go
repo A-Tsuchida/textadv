@@ -11,7 +11,7 @@ type Room struct {
 }
 
 func (r Room) PrintText() {
-	fmt.Printf("%s\n%s\n", r.Name, r.Text)
+	fmt.Printf("\x1b[1m%s\x1b[0m\n%s\n", r.Name, r.Text)
 }
 
 func (r Room) GetObjectKey(o string) string {
