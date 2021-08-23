@@ -37,8 +37,18 @@
             }
         },
         {
-            "Name": "",
-            "Text": "",
+            "Name": "Sala vazia",
+            "Text": "Ao entrar você se depara com uma sala vazia, salvo de um QUADRO na parede. Há uma janela em uma das paredes.",
+            "Objects": {
+                "porta": "orDoor",
+                "janela": "orWindow",
+                "quadro": "orPainting",
+                "chave": "orKey"
+            }
+        },
+        {
+            "Name": "Sala fechada",
+            "Text": "Ao entrar a porta que você usou automaticamente se fecha e faz um clique, você tenta abrir a porta, sem sucesso. Você está preso.\nApós um tempo você percebe que o chão está se movendo, abrindo espaço para um buraco que não dá para ver o fundo.\nFIM DE JOGO.",
             "Objects": {
                 
             }
@@ -173,7 +183,7 @@
             "Commands": [
                 {
                     "With": "",
-                    "Room": 5,
+                    "Room": 4,
                     "Condition": ""
                 }
             ]
@@ -194,6 +204,54 @@
             "ActionSuccess": "",
             "ActionFailure": "Não consigo fazer isso com a porta.",
             "IsPocketable": false,
+            "Commands": [
+                {
+                    "With": "orKey",
+                    "Room": 5,
+                    "Condition": ""
+                }
+            ]
+        },
+        {
+            "Key": "orDoor",
+            "Name": "PORTA",
+            "Description": "Esta porta retorna ao corredor",
+            "ActionSuccess": "",
+            "ActionFailure": "Não consigo fazer isso com a porta.",
+            "IsPocketable": false,
+            "Commands": [
+                {
+                    "With": "",
+                    "Room": 3,
+                    "Condition": ""
+                }
+            ]
+        },
+        {
+            "Key": "orWindow",
+            "Name": "JANELA",
+            "Description": "A janela está fechada. Não tem como abri-la.",
+            "ActionSuccess": "",
+            "ActionFailure": "Isso não vai funcionar.",
+            "IsPocketable": false,
+            "Commands": []
+        },
+        {
+            "Key": "orPainting",
+            "Name": "QUADRO",
+            "Description": "Um quadro de uma pessoa que você desconhece, no canto inferior esquerdo dele parece ter uma flecha (->).",
+            "ActionSuccess": "Você resolver virar o quadro, encontrando uma CHAVE.",
+            "ActionFailure": "Isso não vai funcionar.",
+            "IsPocketable": false,
+            "Commands": []
+        },
+        {
+            "Key": "orKey",
+            "Name": "QUADRO",
+            "Description": "Um quadro de uma pessoa que você desconhece, no canto inferior esquerdo dele parece ter uma flecha (->).",
+            "ActionSuccess": "Você resolver virar o quadro, encontrando uma CHAVE.",
+            "ActionFailure": "Isso não vai funcionar.",
+            "IsPocketable": true,
             "Commands": []
         }
     ]
