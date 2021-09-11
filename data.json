@@ -28,7 +28,7 @@
         },
         {
             "Name": "Corredor estreito",
-            "Text": "Você entrou em um corredor estreito. Você vê 3 portas à sua frente (ESQUERDA, FRENTE, DIRENTA).\nTambém há uma PORTA atrás para voltar.",
+            "Text": "Você entrou em um corredor estreito. Você vê 3 portas à sua frente (ESQUERDA, FRENTE, DIREITA).\nTambém há uma PORTA atrás para voltar.",
             "Objects": {
                 "porta": "door2",
                 "esquerda": "doorL",
@@ -38,7 +38,7 @@
         },
         {
             "Name": "Sala vazia",
-            "Text": "Ao entrar você se depara com uma sala vazia, salvo de um QUADRO na parede. Há uma janela em uma das paredes.",
+            "Text": "Ao entrar você se depara com uma sala vazia, salvo de um QUADRO na parede. Há uma JANELA em uma das paredes.",
             "Objects": {
                 "porta": "orDoor",
                 "janela": "orWindow",
@@ -48,7 +48,7 @@
         },
         {
             "Name": "Sala fechada",
-            "Text": "Ao entrar a porta que você usou automaticamente se fecha e faz um clique, você tenta abrir a porta, sem sucesso. Você está preso.\nApós um tempo você percebe que o chão está se movendo, abrindo espaço para um buraco que não dá para ver o fundo.\nFIM DE JOGO.",
+            "Text": "Ao entrar a porta que você usou automaticamente se fecha e faz um clique, você tenta abrir a porta, sem sucesso. Você está preso.\nApós um tempo você percebe que o chão está se movendo, abrindo espaço para um buraco que não dá para ver o fundo.\n\u001b[1;31mFIM DE JOGO.\u001b[0m",
             "Objects": {
                 
             }
@@ -201,7 +201,7 @@
             "Key": "doorR",
             "Name": "PORTADIREITA",
             "Description": "A porta parece estar trancada",
-            "ActionSuccess": "",
+            "ActionSuccess": "Você abriu a porta e passou por ela.",
             "ActionFailure": "Não consigo fazer isso com a porta.",
             "IsPocketable": false,
             "Commands": [
@@ -216,7 +216,7 @@
             "Key": "orDoor",
             "Name": "PORTA",
             "Description": "Esta porta retorna ao corredor",
-            "ActionSuccess": "",
+            "ActionSuccess": "Você resolveu voltar ao corredor.",
             "ActionFailure": "Não consigo fazer isso com a porta.",
             "IsPocketable": false,
             "Commands": [
@@ -243,7 +243,13 @@
             "ActionSuccess": "Você resolver virar o quadro, encontrando uma CHAVE.",
             "ActionFailure": "Isso não vai funcionar.",
             "IsPocketable": false,
-            "Commands": []
+            "Commands": [
+                {
+                    "With": "",
+                    "Room": -1,
+                    "Condition": ""
+                }
+            ]
         },
         {
             "Key": "orKey",

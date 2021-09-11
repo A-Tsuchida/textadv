@@ -27,12 +27,12 @@ func printOK(message string) {
 func printNextWait() {
 	printOK("Press [ENTER] to continue...")
 	fmt.Scanln()
-	fmt.Print("\x1b[2J\x1b[H")
 }
 
 func loop(instart bool, memory *Memory) int {
 	r := memory.User.Room
 	if instart {
+		fmt.Print("\x1b[2J\x1b[H")
 		fmt.Println()
 		memory.Assets.Rooms[memory.User.Room].PrintText()
 	}
@@ -57,7 +57,7 @@ func loop(instart bool, memory *Memory) int {
 				obj := memory.Assets.GetObject(keyObj)
 
 				if len(obj.Commands) == 0 {
-					fmt.Printf("%s\n", obj.ActionFailure)
+					printWarning(obj.ActionFailure)
 				} else {
 					commands := obj.GetCommandsWith(keyWith)
 					if len(commands) == 0 {
@@ -121,16 +121,16 @@ func loop(instart bool, memory *Memory) int {
 		} else {
 			keyObj := memory.Assets.Rooms[memory.User.Room].GetObjectKey(argA)
 			if keyObj == "" {
-				printWarning(fmt.Sprintf("There's no object named %s here.\n", argA))
+				printWarning(fmt.Sprintf("There's no object named %s here.", argA))
 			} else if memory.User.GetInventoryItem(argA) != "" {
-				printWarning(fmt.Sprintf("%s already is in inventory.\n", argA))
+				printWarning(fmt.Sprintf("%s already is in inventory.", argA))
 			} else {
 				obj := memory.Assets.GetObject(keyObj)
 				if obj.IsPocketable {
 					memory.User.Inventory[argA] = keyObj
-					printOK(fmt.Sprintf("%s was added to inventory.\n", argA))
+					printOK(fmt.Sprintf("%s was added to inventory.", argA))
 				} else {
-					printWarning(fmt.Sprintf("You can't put %s in your inventory.\n", argA))
+					printWarning(fmt.Sprintf("You can't put %s in your inventory.", argA))
 				}
 			}
 		}
